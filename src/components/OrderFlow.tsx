@@ -8,40 +8,51 @@ interface OrderFlowProps extends PropsWithChildren {
     token1: string,
     token2: string,
     lastPrice: string,
-    markPrice: string
+    markPrice: string,
+    address: string
 }
 
 
-function separate(orders: IOrder[]){
+function separate(orders: IOrder[], address: string){
     let asks: number[][] = [];
     let bids: number[][] = [];
+    let ownOrders: string[] = []
     orders.forEach((elem) => {
-        if (elem.sell){
-            asks.push([parseFloat(elem.price), parseFloat(elem.amount)])
-        } else {
-            bids.push([parseFloat(elem.price), parseFloat(elem.amount)])
+        if(elem.type === 'limit' && !elem.orderBlocked && elem.status === 'pending'){
+            if (elem.addr == address) {
+                ownOrders.push(elem.price)
+            }
+
+            if (elem.sell){
+                asks.push([parseFloat(elem.price), parseFloat(elem.amount)])
+            } else {
+                bids.push([parseFloat(elem.price), parseFloat(elem.amount)])
+            }
+
         }
 
     })
 
-    return [asks, bids];
+    return {asks, bids, ownOrders};
 }
 
 
 
 
-const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markPrice}: OrderFlowProps) => {
+const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markPrice, address}: OrderFlowProps) => {
     const [linkActive, setLinkActive] = useState(1);
     const [viewType, setViewType] = useState(1);
     const [selectStepShow, setSelectStepShow] = useState(false);
     const handleSelectStepToggle = () => setSelectStepShow(!selectStepShow);
     const [orderAsks, setOrderAsks] = useState<number[][]>([]);
     const [orderBids, setOrderBids] = useState<number[][]>([]);
+    const [myOrders, setMyOrders] = useState<string[]>([]);
     // const {tokenMarkPrice, tokenIndexPrice, flagStateLong, depth, setStepVal, stepVal} = props;
     const tokenName = "BTC";
 
     useEffect(() => {
-        let [asks, bids] = separate(orders);
+        let {asks, bids, ownOrders} = separate(orders, address);
+        setMyOrders(ownOrders);
         asks = group(asks)
         // console.log("a", asks)
         asks = asks.sort((a: number[], b: number[]) => a[0] - b[0])
@@ -108,7 +119,7 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markP
                 <div className="token_orders_sell_main">
                     { orderAsks.map((order) => <div style={{background: 'linear-gradient(90deg, rgba(28,30,34, 1) ' + (100 - order[3]) + '%, rgba(69,41,44, 1) 1%)'}} className="row">
                         <div className="token_orders_sell_price">
-                            {order[0]}
+                            {order[0]} {myOrders.includes(order[0].toString()) ? "●" : ''}
                         </ div>
 
                         <div className="token_orders_sell_quantity">
@@ -156,7 +167,7 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markP
             {/*</div>*/}
                 { orderBids.map((order) => <div style={{background: 'linear-gradient(90deg, rgba(28,30,34, 0.01) ' + (100 - order[3]) + '%, rgba(30,63,50, 1) 1%)'}} className="row">
                         <div className="token_orders_buy_price">
-                            {order[0]}
+                            {order[0]} {myOrders.includes(order[0].toString()) ? "●" : ''}
                         </ div>
 
                         <div className="token_orders_buy_quantity">

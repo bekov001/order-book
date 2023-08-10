@@ -14,7 +14,7 @@ const App = () => {
     }, [])
     return (
         <div>
-            <OrderFlow orders={orders} token1={"GRIMACE"} token2={"USDT"} lastPrice={'30'} markPrice={'30'}></OrderFlow>
+            <OrderFlow orders={orders} token1={"GRIMACE"} token2={"USDT"} lastPrice={'30'} markPrice={'30'} address={"0x77"}></OrderFlow>
         </div>
     );
 };
