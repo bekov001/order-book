@@ -4,7 +4,11 @@ import './order-flow.css';
 import {IOrder} from "../types";
 import {addDepths, addTotalSums, getMaxTotalSum, group} from "../helpers";
 interface OrderFlowProps extends PropsWithChildren {
-    orders: IOrder[]
+    orders: IOrder[],
+    token1: string,
+    token2: string,
+    lastPrice: string,
+    markPrice: string
 }
 
 
@@ -26,7 +30,7 @@ function separate(orders: IOrder[]){
 
 
 
-const OrderFlow: FC<OrderFlowProps> = ({orders, children}: OrderFlowProps) => {
+const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markPrice}: OrderFlowProps) => {
     const [linkActive, setLinkActive] = useState(1);
     const [viewType, setViewType] = useState(1);
     const [selectStepShow, setSelectStepShow] = useState(false);
@@ -68,9 +72,7 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, children}: OrderFlowProps) => {
                     {/*    Сделки*/}
                     {/*</div>*/}
                 </div>
-                <div className="token_orders_title_full">
-                    <img src="img/full.svg" alt=""/>
-                </div>
+
             </div>
             <div className="token_orders_view_types">
                 {/*<div className="token_orders_view_count_w">*/}
@@ -94,13 +96,13 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, children}: OrderFlowProps) => {
             <div className="token_orders_sell">
                 <div className="token_orders_sell_title">
                     <div className="token_orders_sell_title_price">
-                        Цена(USDT)
+                        Цена({token2})
                     </div>
                     <div className="token_orders_sell_title_quantity">
-                        Размер({tokenName})
+                        Размер({token1})
                     </div>
                     <div className="token_orders_sell_title_total">
-                        Сумма({tokenName})
+                        Сумма({token2})
                     </div>
                 </div>
                 <div className="token_orders_sell_main">
@@ -128,13 +130,13 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, children}: OrderFlowProps) => {
 
 
                     <div style={{display: 'flex', flexDirection: 'row'}}>
-                        <span className='buy_price'>{29.12}</span>
+                        <span className='buy_price'>{lastPrice}</span>
                         <img src="img/order_up.svg" alt=""/>
                     </div>
                 </div>
                 <div className="token_orders_price_for_sell">
                     <img src="img/order_flag.svg" alt=""/>
-                    <span>{28.83}</span>
+                    <span>{markPrice}</span>
                 </div>
             </div>
             <div className="token_orders_buy_main">
