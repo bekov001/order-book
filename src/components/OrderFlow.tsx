@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import {PropsWithChildren} from 'react';
-import './new.css';
+import './order-flow.css';
 import {IOrder} from "../types";
 import {addDepths, addTotalSums, getMaxTotalSum, group} from "../helpers";
 interface OrderFlowProps extends PropsWithChildren {
