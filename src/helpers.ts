@@ -37,15 +37,39 @@ export const getMaxTotalSum = (orders: number[][]): number => {
     return Math.max.apply(Math, totalSums);
 }
 
+function decimalCount (number: number) {
+    // Convert to String
+    const numberAsString = number.toString();
+    // String Contains Decimal
+    if (numberAsString.includes('.')) {
+      return numberAsString.split('.')[1].length;
+    }
+    // String Does Not Contain Decimal
+    return -number;
+  }
 
+function dec(x: number, y: number){
+    let number = Math.trunc(x*Math.pow(10, y))/Math.pow(10, y)
+    if (y < 0){
+        number = Math.floor(x/ (y * -1) ) * (y * -1);
+    }
 
-export const group = (orders: number[][]) => {
+    return number;
+
+}
+
+export const group = (orders: number[][], depth: number) => {
     let newArray: {[key: number]: number}= {}
+ 
+    // const lines = 7;
+    const n = decimalCount(depth)
+
     orders.forEach((elem) => {
-        if (newArray[elem[0]]){
-            newArray[elem[0]] += elem[1]
+        // console.log()
+        if (newArray[dec(elem[0], n)]){
+            newArray[dec(elem[0], n)] += elem[1]
         } else {
-            newArray[elem[0]] = elem[1]
+            newArray[dec(elem[0], n)] = elem[1]
         }
     })
 

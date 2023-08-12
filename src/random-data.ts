@@ -15,11 +15,11 @@ export function getData(){
         data.push({
             id: '12',
             addr: '0x01',
-            amount: getRandomInt(10).toString() + 1,
+            amount: (getRandomInt(10) + 1).toString(),
             blockedCosts: '0.006',
             buy: buy,
             orderID: '12',
-            price: (!buy? getRandomInt(10) + 31:  29 - getRandomInt(10)).toString() ,
+            price: (!buy? getRandomInt(1000) / 100 + 31:  29 - getRandomInt(1000) / 100).toString() ,
             sell: !buy,
             status: 'pending',
             orderBlocked: false,

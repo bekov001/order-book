@@ -36,10 +36,6 @@ body {
 .color_start{
     color: #FFFD54 !important;
 }
-.token_header_stat .row {
-    display: flex;
-    align-items: center;
-}
 
 .color_red {
     color: #FF595E !important;
@@ -65,7 +61,7 @@ body {
     /* height: 680px; */
     margin-right: 20px;
     padding: 0px;
-    width: 380px;
+    width: 450px;
     margin-left: 20px;
 }
 
@@ -486,7 +482,7 @@ body {
 .token_orders_sell_main {
     overflow-y: scroll;
     /* height: 245px; */
-    height: calc(100vh - 660px);
+    height: calc(100vh - 500px);
     margin-top: 8px;
 }
 

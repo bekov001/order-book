@@ -4,7 +4,9 @@ import {getData} from "./random-data";
 import {IOrder} from "./types";
 
 
-
+function test(price: number){
+    alert(price)
+}
 
 
 const App = () => {
@@ -14,7 +16,7 @@ const App = () => {
     }, [])
     return (
         <div>
-            <OrderFlow orders={orders} token1={"GRIMACE"} token2={"USDT"} lastPrice={'30'} markPrice={'30'} address={"0x77"}></OrderFlow>
+            <OrderFlow orders={orders} token1={"GRIMACE"} token2={"USDT"} lastPrice={'30'} markPrice={'30'} address={"0x77"} depth='1' callback={test}></OrderFlow>
         </div>
     );
 };
