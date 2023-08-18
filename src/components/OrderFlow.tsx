@@ -119,7 +119,7 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markP
                         Размер({token1})
                     </div>
                     <div className="token_orders_sell_title_total">
-                        Сумма({token2})
+                        Сумма({token1})
                     </div>
                 </div>
                 <div className="token_orders_sell_main">

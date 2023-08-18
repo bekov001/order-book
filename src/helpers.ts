@@ -11,7 +11,7 @@ export const addTotalSums = (orders: number[][], turnoverDepth: number): number[
         } else {
             const updatedLevel = [ ...order ];
             const totalSum: number = idx === 0 ? size : size + totalSums[idx - 1];
-            updatedLevel[2] = (volume(totalSum * updatedLevel[0], n));
+            updatedLevel[2] = (volume(totalSum, n));
             totalSums.push((totalSum));
             return updatedLevel;
         }
