@@ -11,6 +11,8 @@ interface OrderFlowProps extends PropsWithChildren {
     markPrice: string,
     address: string,
     depth: string,
+    amountDepth: string;
+    turnoverDepth: string;
     callback: ((price: number) => void)
 }
 
@@ -41,7 +43,7 @@ function separate(orders: IOrder[], address: string){
 
 
 
-const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markPrice, address, depth, callback}: OrderFlowProps) => {
+const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markPrice, address, depth, amountDepth, turnoverDepth, callback}: OrderFlowProps) => {
     const [linkActive, setLinkActive] = useState(1);
     const [viewType, setViewType] = useState(1);
     const [selectStepShow, setSelectStepShow] = useState(false);
@@ -55,22 +57,23 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markP
     useEffect(() => {
         let {asks, bids, ownOrders} = separate(orders, address);
         setMyOrders(ownOrders);
-        asks = group(asks, parseFloat(depth))
+        asks = group(asks, parseFloat(depth), parseFloat(amountDepth))
         
-        console.log("a", asks)
+        
         asks = asks.sort((a: number[], b: number[]) => a[0] - b[0])
 
 
-        asks = addTotalSums(asks)
+        asks = addTotalSums(asks, parseFloat(turnoverDepth))
+        // console.log("a", asks)
         asks = addDepths(asks, getMaxTotalSum(asks)).reverse()
         setOrderAsks(asks);
 
-        bids = group(bids, parseFloat(depth))
+        bids = group(bids, parseFloat(depth),  parseFloat(amountDepth))
         // console.log("a", asks)
         bids = bids.sort((a: number[], b: number[]) => a[0] - b[0]).reverse()
 
 
-        bids = addTotalSums(bids)
+        bids = addTotalSums(bids,  parseFloat(turnoverDepth))
         bids = addDepths(bids, getMaxTotalSum(bids))
         setOrderBids(bids);
         // console.log(asks)
@@ -116,11 +119,11 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markP
                         Размер({token1})
                     </div>
                     <div className="token_orders_sell_title_total">
-                        Сумма({token1})
+                        Сумма({token2})
                     </div>
                 </div>
                 <div className="token_orders_sell_main">
-                    { orderAsks.map((order) => <div onClick={() => callback(order[0])} style={{background: 'linear-gradient(90deg, rgba(28,30,34, 1) ' + (100 - order[3]) + '%, rgba(69,41,44, 1) 1%)'}} className="row">
+                    { orderAsks.map((order, idx) => <div onClick={() => callback(order[0])} key={idx} style={{background: 'linear-gradient(90deg, rgba(28,30,34, 1) ' + (100 - order[3]) + '%, rgba(69,41,44, 1) 1%)'}} className="row">
                         <div className="token_orders_sell_price">
                             {order[0]} {myOrders.includes(order[0].toString()) ? "●" : ''}
                         </ div>
@@ -168,7 +171,7 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markP
             {/*        7.815*/}
             {/*    </div>*/}
             {/*</div>*/}
-                { orderBids.map((order) => <div onClick={() => callback(order[0])} style={{background: 'linear-gradient(90deg, rgba(28,30,34, 0.01) ' + (100 - order[3]) + '%, rgba(30,63,50, 1) 1%)'}} className="row">
+                { orderBids.map((order, idx) => <div key={idx} onClick={() => callback(order[0])} style={{background: 'linear-gradient(90deg, rgba(28,30,34, 0.01) ' + (100 - order[3]) + '%, rgba(30,63,50, 1) 1%)'}} className="row">
                         <div className="token_orders_buy_price">
                             {order[0]} {myOrders.includes(order[0].toString()) ? "●" : ''}
                         </ div>

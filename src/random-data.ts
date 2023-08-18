@@ -15,7 +15,7 @@ export function getData(){
         data.push({
             id: '12',
             addr: '0x01',
-            amount: (getRandomInt(10) + 1).toString(),
+            amount: (getRandomInt(10000) / 100 + 1).toString(),
             blockedCosts: '0.006',
             buy: buy,
             orderID: '12',
