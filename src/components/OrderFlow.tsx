@@ -171,7 +171,7 @@ const OrderFlow: FC<OrderFlowProps> = ({orders, token1, token2, lastPrice, markP
             {/*        7.815*/}
             {/*    </div>*/}
             {/*</div>*/}
-                { orderBids.map((order, idx) => <div key={idx} onClick={() => callback(order[0])} style={{background: 'linear-gradient(90deg, rgba(28,30,34, 0.01) ' + (100 - order[3]) + '%, rgba(30,63,50, 1) 1%)'}} className="row">
+                { orderBids.map((order, idx) => <div key={idx} onClick={() => callback(order[0])} style={{background: 'linear-gradient(90deg, rgb(28,30,34) ' + (100 - order[3]) + '%, rgba(30,63,50, 1) 1%)'}} className="row">
                         <div className="token_orders_buy_price">
                             {order[0]} {myOrders.includes(order[0].toString()) ? "●" : ''}
                         </ div>
